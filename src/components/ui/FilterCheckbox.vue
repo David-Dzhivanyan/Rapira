@@ -21,7 +21,7 @@
 </template>
 
 <script setup lang="ts">
-import { type PropType, ref } from 'vue';
+import { ref } from 'vue';
 import { computed } from 'vue';
 import IconCheck from '@/components/icons/IconCheck.vue';
 import IconPlus from '@/components/icons/IconPlus.vue';
@@ -29,7 +29,7 @@ import IconPlus from '@/components/icons/IconPlus.vue';
 const props = defineProps({
   name: { type: String, required: true },
   placeholder: { type: String },
-  modelValue: { type: Boolean as PropType<boolean>, default: false }
+  modelValue: { type: Boolean, default: false }
 });
 
 const emit = defineEmits(['update:modelValue']);

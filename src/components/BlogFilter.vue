@@ -19,7 +19,7 @@
       </div>
       <div :class="$style.content" class="flex items-center flex-wrap gap-2 h-0 overflow-hidden">
         <FilterCheckbox
-          v-for="{ name, placeholder } in checkboxList"
+          v-for="{ name, placeholder } in props.checkboxList"
           :name="name"
           :placeholder="placeholder"
           :key="name"
@@ -30,23 +30,17 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { type PropType, ref } from 'vue';
 import TextField from '@/components/ui/TextField.vue';
 import IconArrowBottom from '@/components/icons/IconArrowBottom.vue';
 import FilterCheckbox from '@/components/ui/FilterCheckbox.vue';
+import type { CheckboxItem } from '@/utils/blogInterface';
+
+const props = defineProps({
+  checkboxList: { type: Array as PropType<CheckboxItem[]> }
+});
 
 const opened = ref(false);
-
-const checkboxList = [
-  { name: 'city', placeholder: 'Город' },
-  { name: 'nature', placeholder: 'Природа' },
-  { name: 'people', placeholder: 'Люди' },
-  { name: 'animals', placeholder: 'Животные' },
-  { name: 'food', placeholder: 'Еда' },
-  { name: 'beverages', placeholder: 'Напитки' },
-  { name: 'architecture', placeholder: 'Архитектура' },
-  { name: 'art', placeholder: 'Искусство' }
-];
 
 const toggle = () => {
   opened.value = !opened.value;
