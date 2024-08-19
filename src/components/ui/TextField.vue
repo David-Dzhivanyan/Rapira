@@ -19,9 +19,7 @@ import IconLoupe from '@/components/icons/IconLoupe.vue';
 const props = defineProps({
   name: { type: String, required: true },
   placeholder: { type: String },
-  required: Boolean,
-  modelValue: { type: String as PropType<string>, default: '' },
-  isValid: Boolean
+  modelValue: { type: String as PropType<string>, default: '' }
 });
 
 const emit = defineEmits(['update:modelValue', 'update:isValid']);
