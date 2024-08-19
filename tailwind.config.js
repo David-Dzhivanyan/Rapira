@@ -16,9 +16,13 @@ module.exports = {
         'gray-100': '#F9F9F9',
         'gray-200': '#F1F1F2',
         'gray-300': '#A1A5B7',
-        'gray-400': '#7E8299'
+        'gray-400': '#D8D8E5',
+        'gray-500': '#7E8299'
+      },
+      fontSize: {
+        xl: '1.375rem'
       }
     }
   },
-  plugins: [require('daisyui')]
+  plugins: []
 };

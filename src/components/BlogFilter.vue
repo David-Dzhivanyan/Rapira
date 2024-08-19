@@ -3,7 +3,7 @@
     <div :class="[$style.wrapper, opened ? $style.open : '']" class="container mx-auto">
       <div class="flex items-center flex-wrap gap-2">
         <h1 class="text-slate-950 text-3xl font-bold me-8">Блог</h1>
-        <TextField
+        <SearchField
           name="blog-filter"
           placeholder="Поиск"
           class="w-full order-1 md:w-96 md:order-none"
@@ -31,9 +31,9 @@
 
 <script setup lang="ts">
 import { type PropType, ref } from 'vue';
-import TextField from '@/components/ui/TextField.vue';
 import IconArrowBottom from '@/components/icons/IconArrowBottom.vue';
 import FilterCheckbox from '@/components/ui/FilterCheckbox.vue';
+import SearchField from '@/components/ui/SearchField.vue';
 import type { CheckboxItem } from '@/utils/blogInterface';
 
 const props = defineProps({

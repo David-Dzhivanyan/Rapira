@@ -3,7 +3,6 @@ export interface Card {
   src: string;
   date: number;
   time: number;
-  commentCount: number;
   comments: CardComment[];
   title: string;
   description: string;
@@ -12,6 +11,7 @@ export interface Card {
 }
 
 export interface CardComment {
+  id: number;
   src: string;
   name: string;
   text: string;
