@@ -1,9 +1,9 @@
 <template>
   <div>
-    <BlogFilter :checkboxList="filterList" />
+    <BlogFilter :checkboxList="filterCheckboxList" @update:filters="filter" />
     <CardGrid>
       <Card
-        v-for="item in cardList"
+        v-for="item in filteredCards"
         :key="item.id"
         :="item"
         class="mx-auto md:mx-0"
@@ -17,7 +17,7 @@
 <script setup lang="ts">
 import BlogFilter from '@/components/BlogFilter.vue';
 import CardGrid from '@/components/Grid.vue';
-import type { Tag, Card as CardInterface } from '@/utils/blogInterface';
+import type { Tag, Card as CardInterface, Filter } from '@/utils/blogInterface';
 import CardModal from '@/components/CardModal.vue';
 import Card from '@/components/Card.vue';
 
@@ -25,10 +25,10 @@ import cardImage1 from '@/assets/images/card1.png';
 import cardImage2 from '@/assets/images/card2.png';
 import cardImage3 from '@/assets/images/card3.png';
 import avatar from '@/assets/images/avatar.png';
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import { setPageScroll } from '@/utils';
 
-const filterList: Tag[] = [
+const filterCheckboxList: Tag[] = [
   { name: 'city', placeholder: 'Город' },
   { name: 'nature', placeholder: 'Природа' },
   { name: 'people', placeholder: 'Люди' },
@@ -128,7 +128,7 @@ const cardList: CardInterface[] = [
     ]
   },
   {
-    id: 0,
+    id: 3,
     src: cardImage1,
     date: 1712638640,
     time: 120,
@@ -150,7 +150,7 @@ const cardList: CardInterface[] = [
     ]
   },
   {
-    id: 1,
+    id: 4,
     src: cardImage2,
     date: 1712379440,
     time: 180,
@@ -186,7 +186,7 @@ const cardList: CardInterface[] = [
     ]
   },
   {
-    id: 2,
+    id: 5,
     src: cardImage3,
     date: 1712293040,
     time: 180,
@@ -218,6 +218,22 @@ const cardList: CardInterface[] = [
 
 const isShowModal = ref(false);
 const currentModal = ref({});
+const currentFilter = ref<Filter>({ searchText: '', tags: [] });
+
+const filteredCards = computed(() => {
+  return cardList.filter((card) => {
+    return (
+      card.title.toLowerCase().includes(currentFilter.value.searchText.toLowerCase()) &&
+      currentFilter.value.tags.every((tag) => {
+        return card.tags.find((item) => item.name === tag.name);
+      })
+    );
+  });
+});
+
+const filter = (obj: Filter) => {
+  currentFilter.value = obj;
+};
 
 const showModal = (e: CardInterface) => {
   isShowModal.value = true;

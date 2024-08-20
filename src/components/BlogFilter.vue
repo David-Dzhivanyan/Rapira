@@ -7,6 +7,8 @@
           name="blog-filter"
           placeholder="Поиск"
           class="w-full order-1 md:w-96 md:order-none"
+          v-model="searchText"
+          @input="onInput"
         />
         <div
           class="text-gray-300 flex items-center group cursor-pointer hover:text-black ms-auto"
@@ -19,10 +21,11 @@
       </div>
       <div :class="$style.content" class="flex items-center flex-wrap gap-2 h-0 overflow-hidden">
         <FilterCheckbox
-          v-for="{ name, placeholder } in props.checkboxList"
-          :name="name"
-          :placeholder="placeholder"
-          :key="name"
+          v-for="checkbox in props.checkboxList"
+          :name="checkbox.name"
+          :placeholder="checkbox.placeholder"
+          :key="checkbox.name"
+          @update:checked="onChecked"
         />
       </div>
     </div>
@@ -30,21 +33,43 @@
 </template>
 
 <script setup lang="ts">
-import { type PropType, ref } from 'vue';
+import { computed, type PropType, ref } from 'vue';
 import IconArrowBottom from '@/components/icons/IconArrowBottom.vue';
 import FilterCheckbox from '@/components/ui/FilterCheckbox.vue';
 import SearchField from '@/components/ui/SearchField.vue';
-import type { CheckboxItem } from '@/utils/blogInterface';
+import type { CheckboxItem, Filter, Tag } from '@/utils/blogInterface';
 
 const props = defineProps({
-  checkboxList: { type: Array as PropType<CheckboxItem[]> }
+  checkboxList: { type: Array as PropType<CheckboxItem[]> },
+  filterObject: { type: Object as PropType<Filter> }
 });
+const emit = defineEmits(['update:filters']);
 
 const opened = ref(false);
+const searchText = ref('');
+const tags = ref<Tag[]>([]);
+
+const filterReturn = computed(() => {
+  return { searchText: searchText.value, tags: tags.value };
+});
+
+const onInput = () => {
+  emit('update:filters', filterReturn.value);
+};
+const onChecked = ({ tag, isChecked }: CheckedTagInterface) => {
+  tags.value = tags.value.filter((item: Tag) => item.name !== tag.name);
+  isChecked && tags.value.push(tag);
+  emit('update:filters', filterReturn.value);
+};
 
 const toggle = () => {
   opened.value = !opened.value;
 };
+
+interface CheckedTagInterface {
+  tag: Tag;
+  isChecked: boolean;
+}
 </script>
 
 <style lang="scss" module>

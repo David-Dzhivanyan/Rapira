@@ -27,3 +27,8 @@ export interface CheckboxItem {
   name: string;
   placeholder: string;
 }
+
+export interface Filter {
+  searchText: string;
+  tags: Tag[];
+}

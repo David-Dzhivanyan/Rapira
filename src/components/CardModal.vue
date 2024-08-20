@@ -11,8 +11,10 @@
     >
       <IconClose class="absolute top-6 right-5 cursor-pointer" @click="close" />
       <div class="text-lg md:text-xl font-semibold leading-none pe-4">{{ title }}</div>
-      <div class="flex text-gray-500 text-xs md:text-sm">
-        {{ formatDate(date) }} • {{ time / 60 }} мин • {{ formatComment(comments.length) }}
+      <div class="flex gap-2 text-gray-500 text-xs md:text-sm">
+        {{ formatDate(date) }} • <IconTime />{{ time / 60 }} мин • <IconComment />{{
+          formatComment(comments.length)
+        }}
       </div>
       <img
         :src="src"
@@ -44,6 +46,8 @@ import { formatComment, formatDate } from '@/utils';
 import IconClose from '@/components/icons/IconClose.vue';
 import CardComment from '@/components/CardComment.vue';
 import CommentForm from '@/components/CommentForm.vue';
+import IconTime from '@/components/icons/IconTime.vue';
+import IconComment from '@/components/icons/IconComment.vue';
 
 const props = defineProps({
   src: { type: String },

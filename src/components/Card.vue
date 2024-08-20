@@ -6,8 +6,10 @@
       :class="$style.img"
       class="rounded-2xl object-cover w-full h-full"
     />
-    <div class="flex text-gray-500 text-sm">
-      {{ formatDate(date) }} • {{ time / 60 }} мин • {{ formatComment(comments.length) }}
+    <div class="flex gap-2 text-gray-500 text-sm">
+      {{ formatDate(date) }} • <IconTime />{{ time / 60 }} мин • <IconComment />{{
+        formatComment(comments.length)
+      }}
     </div>
     <div class="text-xl font-semibold leading-none group-hover:text-blue-500">{{ title }}</div>
     <div>{{ description }}</div>
@@ -27,6 +29,8 @@
 import { type PropType } from 'vue';
 import type { CardComment, Tag } from '@/utils/blogInterface';
 import { formatComment, formatDate } from '@/utils';
+import IconTime from '@/components/icons/IconTime.vue';
+import IconComment from '@/components/icons/IconComment.vue';
 
 const props = defineProps({
   src: { type: String },
