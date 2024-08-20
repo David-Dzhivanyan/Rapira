@@ -22,7 +22,7 @@ const props = defineProps({
   modelValue: { type: String as PropType<string>, default: '' }
 });
 
-const emit = defineEmits(['update:modelValue', 'update:isValid']);
+const emit = defineEmits(['update:modelValue']);
 
 const inputData = computed({
   get: (): string => props.modelValue,

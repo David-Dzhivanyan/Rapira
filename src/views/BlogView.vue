@@ -1,21 +1,32 @@
 <template>
   <div>
     <BlogFilter :checkboxList="filterList" />
-    <CardGrid :items="cardList" />
+    <CardGrid>
+      <Card
+        v-for="item in cardList"
+        :key="item.id"
+        :="item"
+        class="mx-auto md:mx-0"
+        @click="() => showModal(item)"
+      />
+    </CardGrid>
   </div>
-  <CardModal :="test" />
+  <CardModal v-if="isShowModal" :="currentModal" @onClose="modalClose" />
 </template>
 
 <script setup lang="ts">
 import BlogFilter from '@/components/BlogFilter.vue';
 import CardGrid from '@/components/Grid.vue';
-import type { Tag, Card } from '@/utils/blogInterface';
+import type { Tag, Card as CardInterface } from '@/utils/blogInterface';
 import CardModal from '@/components/CardModal.vue';
+import Card from '@/components/Card.vue';
 
 import cardImage1 from '@/assets/images/card1.png';
 import cardImage2 from '@/assets/images/card2.png';
 import cardImage3 from '@/assets/images/card3.png';
 import avatar from '@/assets/images/avatar.png';
+import { ref } from 'vue';
+import { setPageScroll } from '@/utils';
 
 const filterList: Tag[] = [
   { name: 'city', placeholder: 'Город' },
@@ -28,7 +39,7 @@ const filterList: Tag[] = [
   { name: 'art', placeholder: 'Искусство' }
 ];
 
-const cardList: Card[] = [
+const cardList: CardInterface[] = [
   {
     id: 0,
     src: cardImage1,
@@ -205,9 +216,19 @@ const cardList: Card[] = [
   }
 ];
 
-const test = cardList[0];
+const isShowModal = ref(false);
+const currentModal = ref({});
 
-console.log(test);
+const showModal = (e: CardInterface) => {
+  isShowModal.value = true;
+  currentModal.value = e;
+  setPageScroll(true);
+};
+
+const modalClose = () => {
+  isShowModal.value = false;
+  setPageScroll(false);
+};
 </script>
 
 <style></style>

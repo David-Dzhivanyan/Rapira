@@ -11,3 +11,7 @@ body {
   color: black;
 }
 
+body.lock {
+  overflow: hidden;
+}
+

@@ -3,8 +3,8 @@
     <img :src="src" alt="avatar" class="rounded-full me-3 h-10 w-10" />
     <div class="flex flex-col gap-1.5">
       <div class="font-semibold leading-none">{{ name }}</div>
-      <div class="leading-none">{{ text }}</div>
-      <div class="leading-none">{{ formatDate(date) }}</div>
+      <div class="leading-none text-sm">{{ text }}</div>
+      <div class="leading-none text-xs text-gray-500">{{ formatDate(date) }}</div>
     </div>
   </div>
 </template>

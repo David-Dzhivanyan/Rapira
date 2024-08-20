@@ -2,14 +2,16 @@
   <div
     :class="$style.root"
     class="fixed top-0 left-0 w-full h-full z-50 bg-[#0000001a] cursor-pointer"
+    @click="close"
   >
     <div
       :class="$style.inner"
-      class="flex flex-col gap-2.5 p-4 m-2 bg-white rounded-xl cursor-default w-full overflow-auto"
+      class="flex flex-col gap-2.5 p-4 md:m-4 bg-white rounded-xl cursor-default w-full overflow-auto"
+      @click.stop
     >
-      <IconClose class="absolute top-6 right-5 cursor-pointer" />
-      <div class="text-xl font-semibold leading-none pe-4">{{ title }}</div>
-      <div class="flex text-gray-500">
+      <IconClose class="absolute top-6 right-5 cursor-pointer" @click="close" />
+      <div class="text-lg md:text-xl font-semibold leading-none pe-4">{{ title }}</div>
+      <div class="flex text-gray-500 text-xs md:text-sm">
         {{ formatDate(date) }} • {{ time / 60 }} мин • {{ formatComment(comments.length) }}
       </div>
       <img
@@ -18,7 +20,7 @@
         :class="$style.img"
         class="rounded-2xl object-cover w-full h-full"
       />
-      <div>{{ text }}</div>
+      <div class="text-sm md:text-base">{{ text }}</div>
       <div class="flex gap-2.5">
         <div
           v-for="{ name, placeholder } in tags"
@@ -28,20 +30,20 @@
           {{ placeholder }}
         </div>
       </div>
-      <div>{{ formatComment(comments.length) }}</div>
-      <CommentField name="commentField" placeholder="Введите комментарий" />
+      <div class="font-bold">{{ formatComment(comments.length) }}</div>
+      <CommentForm v-model="commentText" />
       <CardComment v-for="comment in comments" :="comment" :key="comment.id" class="mt-2" />
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { type PropType } from 'vue';
+import { type PropType, ref } from 'vue';
 import type { CardComment as CardCommentInterface, Tag } from '@/utils/blogInterface';
 import { formatComment, formatDate } from '@/utils';
 import IconClose from '@/components/icons/IconClose.vue';
 import CardComment from '@/components/CardComment.vue';
-import CommentField from '@/components/ui/CommentField.vue';
+import CommentForm from '@/components/CommentForm.vue';
 
 const props = defineProps({
   src: { type: String },
@@ -58,16 +60,28 @@ const props = defineProps({
   text: { type: String },
   tags: { type: Array as PropType<Tag[]> }
 });
+
+const emit = defineEmits(['onClose']);
+
+const commentText = ref('');
+
+const close = () => {
+  emit('onClose');
+};
 </script>
 
 <style lang="scss" module>
+.root {
+  overflow: auto;
+  max-height: 100vh;
+}
+
 .inner {
   position: absolute;
-  top: 50%;
+  top: 0;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translateX(-50%);
   max-width: 630px;
-  max-height: calc(100% - 40px);
 }
 
 .img {

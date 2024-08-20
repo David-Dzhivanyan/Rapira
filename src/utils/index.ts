@@ -35,3 +35,7 @@ export function formatComment(commentCount: number): string {
 
   return answer;
 }
+
+export function setPageScroll(lock: boolean) {
+  document.body.classList.toggle('lock', lock);
+}

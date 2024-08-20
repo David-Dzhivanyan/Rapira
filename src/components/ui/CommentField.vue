@@ -2,7 +2,7 @@
   <div class="relative">
     <label
       :for="name"
-      :class="[$style.label, isFocus && $style.focused]"
+      :class="[$style.label, isFocus && $style.focused, !isValid && $style.error]"
       class="flex items-center px-2.5 py-3 border-gray-200 border rounded-md relative"
     >
       <textarea
@@ -10,15 +10,16 @@
         :name="name"
         :placeholder="placeholder"
         :class="$style.textarea"
+        class="bg-transparent outline-none text-sm w-full placeholder-gray-400 h-full resize-none"
         v-model="inputData"
         @focus="toggleFocus"
         @blur="toggleFocus"
-        class="bg-transparent outline-none text-sm w-full placeholder-gray-400 h-full resize-none"
       />
     </label>
     <IconClose
       :class="$style.close"
       class="opacity-0 absolute z-10 top-2.5 right-4 cursor-pointer"
+      @click="clear"
     />
   </div>
 </template>
@@ -31,10 +32,12 @@ import IconClose from '@/components/icons/IconClose.vue';
 const props = defineProps({
   name: { type: String, required: true },
   placeholder: { type: String },
-  modelValue: { type: String as PropType<string>, default: '' }
+  modelValue: { type: String as PropType<string>, default: '' },
+  isValid: { type: Boolean, default: true },
+  maxLetter: { type: Number, default: 10000 }
 });
 
-const emit = defineEmits(['update:modelValue', 'update:isValid']);
+const emit = defineEmits(['update:modelValue', 'update:isValid', 'clear']);
 
 const inputData = computed({
   get: (): string => props.modelValue,
@@ -45,6 +48,10 @@ const isFocus = ref<any>(null);
 
 const toggleFocus = () => {
   isFocus.value = !isFocus.value;
+};
+
+const clear = () => {
+  emit('clear');
 };
 </script>
 
@@ -65,6 +72,11 @@ const toggleFocus = () => {
 
   border: 1px solid #3e97ff;
   box-shadow: 0 0 0 2px #3e97ff52;
+}
+
+.error {
+  border: 1px solid #f1416c;
+  box-shadow: 0 0 0 2px #f1416c52;
 }
 
 .textarea {

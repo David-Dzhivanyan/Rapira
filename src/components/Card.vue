@@ -6,7 +6,7 @@
       :class="$style.img"
       class="rounded-2xl object-cover w-full h-full"
     />
-    <div class="flex text-gray-500">
+    <div class="flex text-gray-500 text-sm">
       {{ formatDate(date) }} • {{ time / 60 }} мин • {{ formatComment(comments.length) }}
     </div>
     <div class="text-xl font-semibold leading-none group-hover:text-blue-500">{{ title }}</div>
