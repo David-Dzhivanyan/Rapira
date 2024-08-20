@@ -1,6 +1,6 @@
 <template>
   <div
-    :class="$style.root"
+    :class="[$style.root, isShow && $style.show]"
     class="fixed top-0 left-0 w-full h-full z-50 bg-[#0000001a] cursor-pointer"
     @click="close"
   >
@@ -9,12 +9,11 @@
       class="flex flex-col gap-2.5 p-4 md:m-4 bg-white rounded-xl cursor-default w-full overflow-auto"
       @click.stop
     >
-      <IconClose class="absolute top-6 right-5 cursor-pointer" @click="close" />
+      <IconClose class="absolute top-6 right-5 cursor-pointer text-gray-300" @click="close" />
       <div class="text-lg md:text-xl font-semibold leading-none pe-4">{{ title }}</div>
       <div class="flex gap-2 text-gray-500 text-xs md:text-sm">
-        {{ formatDate(date) }} • <IconTime />{{ time / 60 }} мин • <IconComment />{{
-          formatComment(comments.length)
-        }}
+        {{ formatDate(date) }} • <IconTime />{{ time / 60 }} мин • <IconComment />
+        {{ formatComment(comments.length) }}
       </div>
       <img
         :src="src"
@@ -49,7 +48,7 @@ import CommentForm from '@/components/CommentForm.vue';
 import IconTime from '@/components/icons/IconTime.vue';
 import IconComment from '@/components/icons/IconComment.vue';
 
-const props = defineProps({
+defineProps({
   src: { type: String },
   date: { type: Number, default: 0 },
   time: { type: Number, default: 0 },
@@ -62,15 +61,16 @@ const props = defineProps({
   title: { type: String },
   description: { type: String },
   text: { type: String },
-  tags: { type: Array as PropType<Tag[]> }
+  tags: { type: Array as PropType<Tag[]> },
+  isShow: { type: Boolean }
 });
 
-const emit = defineEmits(['onClose']);
+const emit = defineEmits(['close']);
 
 const commentText = ref('');
 
 const close = () => {
-  emit('onClose');
+  emit('close');
 };
 </script>
 
@@ -78,13 +78,28 @@ const close = () => {
 .root {
   overflow: auto;
   max-height: 100vh;
+  opacity: 0;
+  transition: 0.4s ease-in-out all;
+  pointer-events: none;
+  transition-property: opacity;
+}
+
+.show {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: initial;
+
+  .inner {
+    transform: translate(-50%, 0);
+  }
 }
 
 .inner {
   position: absolute;
   top: 0;
   left: 50%;
-  transform: translateX(-50%);
+  transform: translate(-50%, -200%);
+  transition: 0.3s ease-in-out transform;
   max-width: 630px;
 }
 

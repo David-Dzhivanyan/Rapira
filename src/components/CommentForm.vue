@@ -4,7 +4,7 @@
       name="commentField"
       placeholder="Введите комментарий"
       :maxLetter="maxLetter"
-      v-model:isValid="commentValid"
+      :isValid="commentValid"
       v-model="commentInput"
       @clear="clear"
     />

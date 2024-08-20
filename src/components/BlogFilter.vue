@@ -1,6 +1,9 @@
 <template>
   <div class="bg-white">
-    <div :class="[$style.wrapper, opened ? $style.open : '']" class="container mx-auto">
+    <div
+      :class="[$style.wrapper, opened && $style.open]"
+      class="container mx-auto py-5 px-6 md:px-8"
+    >
       <div class="flex items-center flex-wrap gap-2">
         <h1 class="text-slate-950 text-3xl font-bold me-8">Блог</h1>
         <SearchField
@@ -10,21 +13,31 @@
           v-model="searchText"
           @input="onInput"
         />
-        <div
-          class="text-gray-300 flex items-center group cursor-pointer hover:text-black ms-auto"
-          @click="toggle"
-        >
-          <span class="me-1.5" v-if="opened">Скрыть фильтр</span>
-          <span class="me-1.5" v-else>Фильтр</span>
-          <IconArrowBottom :class="$style.arrow" path-class="group-hover:fill-black" />
+        <div class="flex ms-auto">
+          <span
+            v-if="isEmptyFilter"
+            class="text-blue-600 cursor-pointer me-1.5 hover:text-blue-500"
+            @click="clear"
+          >
+            Очистить
+          </span>
+          <div
+            class="text-gray-300 flex items-center group cursor-pointer hover:text-black"
+            @click="toggleOpen"
+          >
+            <span class="me-1.5" v-if="opened">Скрыть фильтр</span>
+            <span class="me-1.5" v-else>Фильтр</span>
+            <IconArrowBottom :class="$style.arrow" />
+          </div>
         </div>
       </div>
       <div :class="$style.content" class="flex items-center flex-wrap gap-2 h-0 overflow-hidden">
         <FilterCheckbox
-          v-for="checkbox in props.checkboxList"
-          :name="checkbox.name"
-          :placeholder="checkbox.placeholder"
-          :key="checkbox.name"
+          v-for="{ name, placeholder } in checkboxList"
+          :name="name"
+          :placeholder="placeholder"
+          :key="name"
+          :checked="tags.find((item) => item.name === name)"
           @update:checked="onChecked"
         />
       </div>
@@ -34,35 +47,47 @@
 
 <script setup lang="ts">
 import { computed, type PropType, ref } from 'vue';
+import type { CheckboxItem, Filter, Tag } from '@/utils/blogInterface';
 import IconArrowBottom from '@/components/icons/IconArrowBottom.vue';
 import FilterCheckbox from '@/components/ui/FilterCheckbox.vue';
 import SearchField from '@/components/ui/SearchField.vue';
-import type { CheckboxItem, Filter, Tag } from '@/utils/blogInterface';
 
-const props = defineProps({
+defineProps({
   checkboxList: { type: Array as PropType<CheckboxItem[]> },
   filterObject: { type: Object as PropType<Filter> }
 });
+
 const emit = defineEmits(['update:filters']);
 
 const opened = ref(false);
 const searchText = ref('');
 const tags = ref<Tag[]>([]);
 
+const isEmptyFilter = computed(() => {
+  return searchText.value || tags.value.length;
+});
+
 const filterReturn = computed(() => {
   return { searchText: searchText.value, tags: tags.value };
 });
 
+const clear = () => {
+  tags.value = [];
+  searchText.value = '';
+  emit('update:filters', filterReturn.value);
+};
+
 const onInput = () => {
   emit('update:filters', filterReturn.value);
 };
+
 const onChecked = ({ tag, isChecked }: CheckedTagInterface) => {
   tags.value = tags.value.filter((item: Tag) => item.name !== tag.name);
   isChecked && tags.value.push(tag);
   emit('update:filters', filterReturn.value);
 };
 
-const toggle = () => {
+const toggleOpen = () => {
   opened.value = !opened.value;
 };
 
@@ -74,8 +99,6 @@ interface CheckedTagInterface {
 
 <style lang="scss" module>
 .wrapper {
-  padding: 20px 32px;
-
   @media (min-width: 1024px) {
     transition: 0.2s ease-in-out padding;
   }
@@ -100,8 +123,6 @@ interface CheckedTagInterface {
 
 .content {
   padding: 0;
-  transition: 0.2s ease-in-out all;
-  transition-property: height, padding;
 
   @media (min-width: 1024px) {
     transition: 0.2s ease-in-out all;

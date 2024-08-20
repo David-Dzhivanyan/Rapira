@@ -38,4 +38,15 @@ export function formatComment(commentCount: number): string {
 
 export function setPageScroll(lock: boolean) {
   document.body.classList.toggle('lock', lock);
+  // if (lock) {
+  //   const scrollY = window.scrollY;
+  //   document.body.style.position = 'fixed';
+  //   document.body.style.top = `-${scrollY}px`;
+  //   document.body.style.width = '100%';
+  // } else {
+  //   const scrollY = Math.abs(parseInt(document.body.style.top || '0', 10));
+  //   document.body.style.position = '';
+  //   document.body.style.top = '';
+  //   window.scrollTo(0, scrollY);
+  // }
 }

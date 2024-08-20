@@ -3,7 +3,7 @@
     :for="name"
     :title="placeholder"
     :class="[
-      'px-3.5 py-2 flex items-center rounded-3xl relative',
+      'px-3.5 py-2 flex items-center rounded-3xl relative cursor-pointer',
       isChecked ? 'bg-blue-500 text-white' : 'bg-blue-100 text-blue-500'
     ]"
   >
@@ -22,7 +22,6 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
 import { computed } from 'vue';
 import IconCheck from '@/components/icons/IconCheck.vue';
 import IconPlus from '@/components/icons/IconPlus.vue';
@@ -33,17 +32,22 @@ const props = defineProps({
   checked: { type: Boolean, default: false }
 });
 
-const isChecked = ref(props.checked);
 const emit = defineEmits(['update:checked']);
-const handleChange = (event: any) => {
-  isChecked.value = event.target.checked;
-  emit('update:checked', {
-    tag: { name: props.name, placeholder: props.placeholder },
-    isChecked: isChecked.value
-  });
-};
 
-const checked = ref(false);
+const isChecked = computed({
+  get: () => props.checked,
+  set: (value: boolean) => {
+    emit('update:checked', {
+      tag: { name: props.name, placeholder: props.placeholder },
+      isChecked: value
+    });
+  }
+});
+
+const handleChange = (e: Event) => {
+  const target = e.target as HTMLInputElement;
+  isChecked.value = target.checked;
+};
 </script>
 
 <style module lang="scss"></style>

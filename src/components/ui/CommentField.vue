@@ -3,7 +3,7 @@
     <label
       :for="name"
       :class="[$style.label, isFocus && $style.focused, !isValid && $style.error]"
-      class="flex items-center px-2.5 py-3 border-gray-200 border rounded-md relative"
+      class="flex items-center ps-2.5 pe-8 py-3 border-gray-200 border rounded-md relative"
     >
       <textarea
         :id="name"
@@ -18,7 +18,7 @@
     </label>
     <IconClose
       :class="$style.close"
-      class="opacity-0 absolute z-10 top-2.5 right-4 cursor-pointer"
+      class="opacity-0 absolute z-10 top-2.5 right-4 cursor-pointer text-gray-300"
       @click="clear"
     />
   </div>
@@ -37,14 +37,14 @@ const props = defineProps({
   maxLetter: { type: Number, default: 10000 }
 });
 
-const emit = defineEmits(['update:modelValue', 'update:isValid', 'clear']);
+const emit = defineEmits(['update:modelValue', 'clear']);
 
 const inputData = computed({
   get: (): string => props.modelValue,
   set: (value: string) => emit('update:modelValue', value)
 });
 
-const isFocus = ref<any>(null);
+const isFocus = ref(false);
 
 const toggleFocus = () => {
   isFocus.value = !isFocus.value;
@@ -62,6 +62,9 @@ const clear = () => {
 }
 
 .focused {
+  border: 1px solid #3e97ff;
+  box-shadow: 0 0 0 2px #3e97ff52;
+
   .textarea {
     height: 120px;
   }
@@ -69,9 +72,6 @@ const clear = () => {
   & ~ .close {
     opacity: 1;
   }
-
-  border: 1px solid #3e97ff;
-  box-shadow: 0 0 0 2px #3e97ff52;
 }
 
 .error {

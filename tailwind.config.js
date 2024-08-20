@@ -1,7 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ['./index.html', './src/**/*.{vue,js,ts}'],
-  darkMode: false,
   theme: {
     screens: {
       md: '800px',
@@ -12,6 +11,7 @@ module.exports = {
       colors: {
         'blue-100': '#EEF6FF',
         'blue-500': '#3E97FF',
+        'blue-600': '#2884EF',
         'slate-950': '#181C32',
         'red-300': '#F1416C',
         'gray-100': '#F9F9F9',

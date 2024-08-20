@@ -13,7 +13,7 @@
 </template>
 
 <script lang="ts" setup>
-const props = defineProps({
+defineProps({
   primary: { type: Boolean, default: false },
   disabled: { type: Boolean, default: false }
 });

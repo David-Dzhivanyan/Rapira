@@ -10,7 +10,7 @@
 </template>
 
 <script lang="ts" setup>
-const props = defineProps({
+defineProps({
   src: { type: String },
   name: { type: String },
   text: { type: String },

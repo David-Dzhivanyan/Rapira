@@ -1,6 +1,6 @@
 <template>
   <div class="px-2.5 py-3 flex items-center bg-gray-100 rounded-md">
-    <label :for="name" class="me-2.5"><IconLoupe /></label>
+    <label :for="name" class="me-2.5 text-gray-300"><IconLoupe /></label>
     <input
       :id="name"
       :name="name"

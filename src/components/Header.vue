@@ -2,9 +2,10 @@
   <header class="bg-black text-white">
     <div class="container mx-auto flex items-center relative py-6 px-5 lg:px-0">
       <IconBurger class="block lg:hidden me-4" @click="toggleMenu" />
-      <div
+      <nav
         v-if="isMenuOpen"
         class="flex flex-col absolute p-2 bg-white top-3/4 rounded-md border border-gray-100"
+        @click="toggleMenu"
       >
         <RouterLink to="/" class="px-2 py-1 rounded-lg text-black" activeClass="bg-gray-100">
           Главная
@@ -12,7 +13,7 @@
         <RouterLink to="/blog" class="px-2 py-1 rounded-lg text-black" activeClass="bg-gray-100">
           Блог
         </RouterLink>
-      </div>
+      </nav>
       <img
         class="lg:me-20"
         alt="logo"

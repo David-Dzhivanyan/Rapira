@@ -1,7 +1,3 @@
 <template>
-  <div>Главная </div>
+  <div>Главная</div>
 </template>
-
-<script setup lang="ts">
-</script>
-

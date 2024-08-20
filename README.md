@@ -1,6 +1,6 @@
 # rapira
 
-This template should help get you started developing with Vue 3 in Vite.
+An app for displaying, searching and filtering photos on Vue 3 in Vite.
 
 ## Recommended IDE Setup
 

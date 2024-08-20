@@ -7,9 +7,8 @@
       class="rounded-2xl object-cover w-full h-full"
     />
     <div class="flex gap-2 text-gray-500 text-sm">
-      {{ formatDate(date) }} • <IconTime />{{ time / 60 }} мин • <IconComment />{{
-        formatComment(comments.length)
-      }}
+      {{ formatDate(date) }} • <IconTime />{{ time / 60 }} мин • <IconComment />
+      {{ formatComment(comments.length) }}
     </div>
     <div class="text-xl font-semibold leading-none group-hover:text-blue-500">{{ title }}</div>
     <div>{{ description }}</div>
@@ -32,7 +31,7 @@ import { formatComment, formatDate } from '@/utils';
 import IconTime from '@/components/icons/IconTime.vue';
 import IconComment from '@/components/icons/IconComment.vue';
 
-const props = defineProps({
+defineProps({
   src: { type: String },
   date: { type: Number, default: 0 },
   time: { type: Number, default: 0 },
